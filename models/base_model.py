@@ -2,6 +2,7 @@
 from uuid import uuid4
 from datetime import datetime
 
+
 class BaseModel:
 
     def __init__(self, *args, **kwargs):
@@ -26,9 +27,10 @@ class BaseModel:
         self.updated_at = datetime.now()
 
     def to_dict(self):
-
         new_dict = self.__dict__.copy()
-        new_dict.update({'created_at': datetime.isoformat(self.created_at)})
-        new_dict.update({'update_at': datetime.isoformat(self.updated_at)})
-        new_dict.update({'__class__': self.__class__.__name__})
+        new_dict.update({
+            'created_at': datetime.isoformat(self.created_at),
+            'update_at': datetime.isoformat(self.updated_at),
+            '__class__': self.__class__.__name__
+        })
         return new_dict
