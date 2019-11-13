@@ -1,13 +1,17 @@
+#!/usr/bin/python3
 import cmd
+import models
 from models.base_model import BaseModel
 
 classes_list = {
     'BaseModel': BaseModel,
 }
 
+
 class HBNBCommand(cmd.Cmd):
 
     collection_keys = classes_list.keys()
+
     prompt = '(hbnb) '
 
     def do_quit(self, input):
@@ -37,18 +41,14 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
             return
         else:
-            new_record = class_list[class_name]()
+            new_record = classes_list[class_name]()
             new_record.save()
             print(new_record.id)
 
-        def do_show(self, input_type_model):
-            if not input_type_model:
-                print('** class name missing **')
-                return
-            extract_class_name = input_type_model.split(" ", 1)[0]
-            if extract_class_name != HBNBCommand.collection_keys[0]:
-                print("** class doesn't exist **")
-                return
+    def do_show(self, input):
+        class_name, id = (input.split(' ')[0], input.split(' ')[1])
+        query_key = class_name + '.' + id
+        print(models.storage.all()[query_key])
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
