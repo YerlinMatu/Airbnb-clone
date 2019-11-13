@@ -33,7 +33,7 @@ class HBNBCommand(cmd.Cmd):
             print('** class name missing **')
             return
 
-        if _input_class_name not in HBNBCommand.collection_keys:
+        if _input_class_name not in self.collection_keys:
             print("** class doesn't exist **")
             return
 
@@ -44,15 +44,15 @@ class HBNBCommand(cmd.Cmd):
 
     def do_show(self, _input):
 
-        if len(_input.split(' ')[0]) == 0:
+        if len(_input.split(' ')[0]) is 0:
             print("** class name missing **")
             return
 
-        if _input.split(' ')[0] not in HBNBCommand.collection_keys:
+        if _input.split(' ')[0] not in self.collection_keys:
             print("** class doesn't exist **")
             return
 
-        if len(_input.split()) == 1:
+        if len(_input.split()) is 1:
             print("** instance id missing **")
             return
 
@@ -64,6 +64,41 @@ class HBNBCommand(cmd.Cmd):
             return
 
         print(models.storage.all()[query_key])
+
+    def do_destroy(self, _input):
+
+        if len(_input.split(' ')[0]) is 0:
+            print("** class name missing **")
+            return
+
+        if _input.split(' ')[0] not in self.collection_keys:
+            print("** class doesn't exist **")
+            return
+
+        if len(_input.split()) is 1:
+            print("** instance id missing **")
+            return
+
+        class_name, class_id = (_input.split(' ')[0], _input.split(' ')[1])
+        query_key = class_name + '.' + class_id
+
+        if query_key not in models.storage.all().keys():
+            print("** no instance found **")
+            return
+
+        del models.storage.all()[query_key]
+        models.storage.save()
+    
+    def do_all(self, _input):
+
+        if _input.split(' ')[0] not in self.collection_keys:
+            print("** class doesn't exist **")
+            return
+
+        class_name = _input.split(' ')[0]
+        for item_id in models.storage.all().keys():
+            item_id = models.storage.all()[item_id]
+            print(item_id)
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
