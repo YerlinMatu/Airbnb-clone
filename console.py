@@ -1,9 +1,13 @@
 import cmd
 from models.base_model import BaseModel
 
+classes_list = {
+    'BaseModel': BaseModel,
+}
+
 class HBNBCommand(cmd.Cmd):
 
-    collection = ['BaseModel']
+    collection_keys = classes_list.keys()
     prompt = '(hbnb) '
 
     def do_quit(self, input):
@@ -27,13 +31,14 @@ class HBNBCommand(cmd.Cmd):
             return
 
         class_name = input_type_model.split(' ', 1)[0]
-        model_list = HBNBCommand.collection
+        model_list = HBNBCommand.collection_keys
 
         if any(model != class_name for model in model_list):
             print("** class doesn't exist **")
             return
         else:
-            new_record = BaseModel()
+            new_record = class_list[class_name]()
+            new_record.save()
             print(new_record.id)
 
         def do_show(self, input_type_model):
@@ -41,7 +46,7 @@ class HBNBCommand(cmd.Cmd):
                 print('** class name missing **')
                 return
             extract_class_name = input_type_model.split(" ", 1)[0]
-            if extract_class_name != HBNBCommand.collection[0]:
+            if extract_class_name != HBNBCommand.collection_keys[0]:
                 print("** class doesn't exist **")
                 return
 
