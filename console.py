@@ -88,17 +88,17 @@ class HBNBCommand(cmd.Cmd):
 
         del models.storage.all()[query_key]
         models.storage.save()
-    
-    def do_all(self, _input):
 
-        if _input.split(' ')[0] not in self.collection_keys:
-            print("** class doesn't exist **")
-            return
+    def do_all(self, _input_class_name):
+        if _input_class_name:
+            if _input_class_name not in self.collection_keys:
+                print("** class doesn't exist **")
+                return
 
-        class_name = _input.split(' ')[0]
         for item_id in models.storage.all().keys():
             item_id = models.storage.all()[item_id]
             print(item_id)
+        return
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
