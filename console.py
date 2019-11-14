@@ -2,10 +2,22 @@
 import cmd
 import models
 from models.base_model import BaseModel
+from models.user import User
+from models.city import City
+from models.place import Place
+from models.state import State
+from models.review import Review
+from models.amenity import Amenity
 import shlex
 
 classes_dict = {
     'BaseModel': BaseModel,
+    'User': User,
+    'City': City,
+    'Place': Place,
+    'State': State,
+    'Amenity': Amenity,
+    'Review': Review,
 }
 
 class HBNBCommand(cmd.Cmd):

@@ -2,8 +2,22 @@
 import json
 import models
 from models.base_model import BaseModel
+from models.user import User
+from models.city import City
+from models.place import Place
+from models.state import State
+from models.review import Review
+from models.amenity import Amenity
 
-classes = {'BaseModel': BaseModel}
+classes_dict = {
+    'BaseModel': BaseModel,
+    'User': User,
+    'City': City,
+    'Place': Place,
+    'State': State,
+    'Amenity': Amenity,
+    'Review': Review,
+}
 
 class FileStorage:
     def __init__(self):
@@ -33,6 +47,6 @@ class FileStorage:
             with open(self.__file_path, 'r') as file:
                 data = json.load(file)
             for key in data:
-                self.__objects[key] = classes[data[key]['__class__']](**data[key])
+                self.__objects[key] = classes_list[data[key]['__class__']](**data[key])
         except:
             pass
